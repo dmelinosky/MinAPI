@@ -5,6 +5,14 @@ namespace MinAPI.Controllers
 {
     public class ValuesController : ApiController
     {
+        public TestInjection TestInjection { get; }
+
+        public ValuesController(TestInjection testInjection)
+        {
+            this.TestInjection = testInjection;
+        }
+
+
         // GET api/values
         public IEnumerable<string> Get()
         {
