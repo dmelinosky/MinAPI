@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Web.Http;
 
 namespace MinAPI.Controllers
@@ -6,10 +7,14 @@ namespace MinAPI.Controllers
     public class ValuesController : ApiController
     {
         public TestInjection TestInjection { get; }
+        public IThing Thing { get; }
 
-        public ValuesController(TestInjection testInjection)
+        public ValuesController(TestInjection testInjection, IThing thing)
         {
             this.TestInjection = testInjection;
+            this.Thing = thing;
+
+            Debug.Assert(thing.Id == this.TestInjection.Thing.Id);
         }
 
 

@@ -32,6 +32,7 @@ namespace MinAPI
             var services = new ServiceCollection();
 
             services.AddScoped<TestInjection>();
+            services.AddSingleton<IThing, TestThing>();
 
             services.AddControllersAsServices(typeof(WebApiApplication).Assembly.GetExportedTypes()
                 .Where(t => !t.IsAbstract && !t.IsGenericTypeDefinition)
@@ -91,11 +92,38 @@ namespace MinAPI
 
     public class TestInjection
     {
-        public TestInjection()
+        readonly IThing thing;
+
+        public TestInjection(IThing thing)
         {
+            this.thing = thing;
             this.Name = Guid.NewGuid().ToString();
         }
 
         public string Name { get; }
+
+        public IThing Thing => this.thing;
     }
+
+    public interface IThing
+    {
+        Guid Id { get; }
+
+        void DoIt();
+    }
+
+    public class TestThing : IThing
+    {
+        public TestThing()
+        {
+            this.Id = Guid.NewGuid();
+        }
+
+        public Guid Id { get; private set; }
+
+        public void DoIt()
+        {
+        }
+    }
+
 }
